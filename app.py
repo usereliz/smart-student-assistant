@@ -163,7 +163,8 @@ else:
                 result = ask_question(st.session_state.qa_chain, prompt)
 
             st.markdown(result["answer"])
-
+            if result.get("low_confidence"):
+                st.warning("⚠️ Low confidence — this question may be outside your course materials.")
             if result["sources"]:
                 source_html = "".join(
                     f'<span class="source-badge">📄 {s["file"]} · p.{s["page"]}</span>'

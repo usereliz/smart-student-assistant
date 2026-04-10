@@ -140,9 +140,9 @@ def build_qa_chain(vectorstore: Chroma) -> ConversationalRetrievalChain:
     )
 
     retriever = vectorstore.as_retriever(
-        search_type="similarity",
-        search_kwargs={"k": 4},     # retrieve top 4 most relevant chunks
-    )
+    search_type="similarity_score_threshold",
+    search_kwargs={"k": 4, "score_threshold": 0.4},
+)
 
     chain = ConversationalRetrievalChain.from_llm(
         llm=llm,
@@ -157,24 +157,25 @@ def build_qa_chain(vectorstore: Chroma) -> ConversationalRetrievalChain:
 # ── 4. Ask a Question ──────────────────────────────────────────────────────────
 
 def ask_question(chain: ConversationalRetrievalChain, question: str) -> dict:
-    """
-    Send a question through the RAG chain.
-
-    Returns:
-        {
-            "answer": str,
-            "sources": [{"file": str, "page": int}]
-        }
-    """
     result = chain({"question": question})
+
+    source_docs = result.get("source_documents", [])
+
+    # Confidence filter: if no docs retrieved, don't hallucinate
+    if not source_docs:
+        return {
+            "answer": "I couldn't find relevant information in your course materials for this question.",
+            "sources": [],
+            "low_confidence": True,
+        }
 
     # Extract unique sources
     sources = []
     seen = set()
-    for doc in result.get("source_documents", []):
+    for doc in source_docs:
         meta = doc.metadata
         file_name = os.path.basename(meta.get("source", "Unknown"))
-        page = meta.get("page", 0) + 1  # pages are 0-indexed in LangChain
+        page = meta.get("page", 0) + 1
         key = (file_name, page)
         if key not in seen:
             seen.add(key)
@@ -183,4 +184,5 @@ def ask_question(chain: ConversationalRetrievalChain, question: str) -> dict:
     return {
         "answer": result["answer"],
         "sources": sources,
+        "low_confidence": False,
     }
