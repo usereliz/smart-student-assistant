@@ -17,7 +17,7 @@ smart-student-assistant/
 ```bash
 git clone https://github.com/usereliz/smart-student-assistant
 cd smart-student-assistant
-python -m venv venv
+py -3.11 -m venv venv
 venv\Scripts\activate
 pip install -r requirements.txt
 ```
