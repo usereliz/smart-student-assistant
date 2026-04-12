@@ -1,22 +1,19 @@
-# 🎓 Smart Student Assistant
+# 🎓 Assistant Étudiant Intelligent
 
-A RAG-based chatbot that answers questions from your course PDFs using AI.
-Built with: Python · LangChain · ChromaDB · Google Gemini · Streamlit
+Un chatbot basé sur la technique RAG qui répond à tes questions à partir de tes cours en PDF grâce à l'IA.
+Technologies utilisées : Python · LangChain · ChromaDB · Google Gemini · Streamlit
 
-## 📁 Project Structure
-
-```
+## 📁 Structure du projet
 smart-student-assistant/
-├── app.py                  # Main Streamlit app
-├── rag_pipeline.py         # RAG logic (load, embed, retrieve, generate)
-├── requirements.txt        # All dependencies
-├── .env.example            # Environment variables template
+├── app.py                  # Application Streamlit principale
+├── rag_pipeline.py         # Logique RAG (chargement, embeddings, recherche, génération)
+├── requirements.txt        # Toutes les dépendances
+├── .env.example            # Modèle pour les variables d'environnement
 └── README.md
-```
 
-## 🚀 Setup & Run
+## 🚀 Installation & Lancement
 
-1. Clone & install
+1. Cloner & installer
 ```bash
 git clone https://github.com/usereliz/smart-student-assistant
 cd smart-student-assistant
@@ -24,14 +21,13 @@ python -m venv venv
 venv\Scripts\activate
 pip install -r requirements.txt
 ```
-2. Run the app
+2. Lancer l'application
 ```bash
 streamlit run app.py
 ```
+## 🛠️ Comment ça fonctionne
 
-## 🛠️ How it works
-
-1. Upload your course PDFs
-2. Indexing: PDFs are split into chunks → converted to embeddings → stored in ChromaDB
-3. Querying: Your question is embedded → similar chunks are retrieved → Gemini generates an answer using those chunks as context
-4. Answer: Response shown with the source document and page number
+1. **Import** de tes cours en PDF
+2. **Indexation** : les PDFs sont découpés en morceaux → convertis en embeddings → stockés dans ChromaDB
+3. **Recherche** : ta question est convertie en embedding → les passages les plus similaires sont récupérés → Gemini génère une réponse basée sur ces passages
+4. **Réponse** : la réponse s'affiche avec le document source et le numéro de page
