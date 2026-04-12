@@ -3,7 +3,7 @@
 Un chatbot basé sur la technique RAG qui répond à tes questions à partir de tes cours en PDF grâce à l'IA.
 Technologies utilisées : Python · LangChain · ChromaDB · Google Gemini · Streamlit
 
-## 📁 Structure du projet
+📁 Structure du projet
 smart-student-assistant/
 ├── app.py                  # Application Streamlit principale
 ├── rag_pipeline.py         # Logique RAG (chargement, embeddings, recherche, génération)
